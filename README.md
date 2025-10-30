@@ -32,7 +32,7 @@ To access Facebook leads, your Facebook App needs the following permissions:
 2. Search for and add "Webhooks".
 3. In the Webhooks product, click "Setup".
 4. Choose "Page" as the object and subscribe to the "leadgen" field.
-5. Set the Callback URL to your server's URL (e.g., `https://yourdomain.com/webhook`).
+5. Set the Callback URL to your server's public URL followed by `/webhook` (e.g., `https://yourdomain.com/webhook` or `https://abc123.ngrok.io/webhook` for local testing).
 6. Set Verify Token (this will be used in your environment variables).
 
 ### 4. Get Access Token
@@ -67,7 +67,7 @@ npm install
 npm start
 ```
 
-The server will run on port 3000 by default.
+The server will run on port 3000 by default. You can access it at `http://localhost:3000` to see "Facebook Leads Server is running!"
 
 #### Local Testing
 
@@ -82,18 +82,18 @@ Make sure your webhook URL is accessible (use ngrok for local testing).
 ## How It Works
 
 - The webhook endpoint `/webhook` handles incoming lead notifications.
-- When a lead is generated, it logs the leadgen ID.
-- You can extend the code to retrieve full lead details using the Facebook Graph API.
+- When a lead is generated, it logs the leadgen ID and automatically fetches the full lead details from the Facebook Graph API.
+- The lead data is logged to the console for review.
 
 ## Retrieving Lead Details
 
-To get the actual lead data, use the Facebook Graph API:
+When a lead is generated, the webhook handler automatically retrieves the lead data using the Facebook Graph API. The code makes a GET request to:
 
 ```
-GET /v18.0/{leadgen-id}?access_token={access-token}
+GET https://graph.facebook.com/v18.0/{leadgen-id}?access_token={access-token}
 ```
 
-You can add this to the webhook handler.
+The lead details, including form fields like name, email, etc., are logged to the console. You can modify the code to store them in a database or send notifications instead.
 
 ## Security
 
