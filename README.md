@@ -85,6 +85,26 @@ Make sure your webhook URL is accessible (use ngrok for local testing).
 - When a lead is generated, it logs the leadgen ID and automatically fetches the full lead details from the Facebook Graph API.
 - The lead data is logged to the console for review.
 
+## Testing
+
+### Test Locally
+```bash
+node test-webhook.js
+```
+
+This sends a sample lead payload to your local server.
+
+### Test on Render
+Update the URL in `test-webhook.js` to your Render URL and run the script.
+
+### Facebook Test Button
+Note: Facebook's "Test" button may send an empty payload. To truly test:
+1. **Create a real Lead Ad** on your Facebook Page
+2. **Fill out the form** as a test user
+3. **Check Render logs** for the actual lead data
+
+The test button mainly verifies the webhook connection, not actual lead processing.
+
 ## Retrieving Lead Details
 
 When a lead is generated, the webhook handler automatically retrieves the lead data using the Facebook Graph API. The code makes a GET request to:

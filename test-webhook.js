@@ -27,7 +27,7 @@ const testWebhook = async () => {
 
   try {
     console.log('Sending test webhook payload...');
-    const response = await axios.post('http://localhost:3000/webhook', testPayload);
+    const response = await axios.post('https://fb-leads-30g0.onrender.com/webhook', testPayload);
     console.log('Response:', response.status, response.data);
   } catch (error) {
     console.error('Error:', error.response ? error.response.data : error.message);

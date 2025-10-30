@@ -46,15 +46,24 @@ app.post('/webhook', async (req, res) => {
   console.log('='.repeat(60));
   console.log('Headers:', JSON.stringify(req.headers, null, 2));
   console.log('Body:', JSON.stringify(req.body, null, 2));
+  console.log('Body type:', typeof req.body);
+  console.log('Body is empty?', Object.keys(req.body || {}).length === 0);
   console.log('='.repeat(60));
   
   const body = req.body;
+  
+  // Always respond with 200 first to acknowledge receipt
+  res.status(200).send('EVENT_RECEIVED');
+  
+  // Check if body exists and has content
+  if (!body || Object.keys(body).length === 0) {
+    console.log('⚠️  Empty body received - this might be a test ping from Facebook');
+    return;
+  }
 
   // Check if this is an event from a page subscription
   if (body.object === 'page') {
     console.log('✓ Valid page object detected');
-    // Returns a '200 OK' response to all requests
-    res.status(200).send('EVENT_RECEIVED');
 
     // Iterate over each entry - there may be multiple if batched
     body.entry.forEach(function(entry) {
