@@ -9,6 +9,11 @@ const PORT = process.env.PORT || 3000;
 // Middleware
 app.use(bodyParser.json());
 
+// Root path to check server status
+app.get('/', (req, res) => {
+  res.send('Facebook Leads Server is running!');
+});
+
 // Webhook verification (GET request)
 app.get('/webhook', (req, res) => {
   const mode = req.query['hub.mode'];
